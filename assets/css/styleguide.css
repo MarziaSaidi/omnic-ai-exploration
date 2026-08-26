@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Omnic.AI — Style guide layout
+   Page-specific presentation for design-system.html: specimen grids, swatches,
+   evidence tables. None of this belongs in components.css — it exists only to
+   document components, not to be one.
+   ========================================================================== */
+
+.sg-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--gutter);
+  border-bottom: 1px solid var(--line-on-paper);
+}
+.sg-topbar a { color: var(--fg-ink-2); font-size: var(--fs-small); }
+.sg-topbar a:hover { color: var(--omnic-cyan-deep); }
+.sg-topbar__tag { white-space: nowrap; }
+@media (max-width: 575.98px) {
+  .sg-topbar__tag { display: none; }
+}
+
+.sg-intro { padding-block: var(--s-7) var(--s-6); }
+.sg-intro__lede { max-width: 62ch; }
+
+/* Bootstrap's reboot ships inline <code> in a pink that reads as an error
+   state against this palette; used here for real code-like tokens
+   (forge.omnic.ai, class names), not errors. */
+.sg-intro__lede code,
+.sg-frame code,
+.sg-section p code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--surface-paper-2);
+  padding: 0.1em 0.4em;
+  border-radius: var(--r-1);
+  color: var(--omnic-cyan-deep);
+}
+
+.sg-frame {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--line-on-paper);
+  border: 1px solid var(--line-on-paper);
+  margin-block: var(--s-6);
+}
+.sg-frame__item {
+  background: var(--surface-white);
+  padding: var(--s-4);
+}
+.sg-frame__label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--omnic-cyan-deep);
+  display: block;
+  margin-bottom: var(--s-2);
+}
+
+.sg-section { padding-block: var(--s-7); border-top: 1px solid var(--line-on-paper); }
+.sg-section__head { max-width: 60ch; margin-bottom: var(--s-6); }
+
+/* Evidence table — the measurements this section is built on */
+.sg-table { width: 100%; border-collapse: collapse; font-size: var(--fs-small); }
+.sg-table th, .sg-table td {
+  text-align: left;
+  padding: var(--s-2) var(--s-3);
+  border-bottom: 1px solid var(--line-on-paper);
+  vertical-align: top;
+}
+.sg-table th { font-weight: 600; color: var(--fg-ink); }
+.sg-table td { color: var(--fg-ink-2); }
+.sg-table code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--surface-paper-2);
+  padding: 0.1em 0.4em;
+  border-radius: var(--r-1);
+  color: var(--fg-ink);
+}
+.sg-table-wrap { overflow-x: auto; }
+
+/* Colour swatches */
+.sg-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--s-3);
+}
+.sg-swatch__chip {
+  height: 88px;
+  border-radius: var(--r-3);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.sg-swatch__meta { margin-top: var(--s-2); }
+.sg-swatch__name { font-weight: 600; font-size: var(--fs-small); color: var(--fg-ink); }
+.sg-swatch__hex { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--fg-ink-2); }
+.sg-swatch__src { font-size: 0.75rem; color: var(--fg-ink-2); margin-top: 0.125rem; }
+
+/* Type specimens */
+.sg-type-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--line-on-paper);
+}
+.sg-type-row:last-child { border-bottom: 1px solid var(--line-on-paper); }
+.sg-type-row__sample { color: var(--fg-ink); }
+.sg-type-row__meta {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--fg-ink-2);
+  text-align: right;
+  white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+  /* The nowrap meta column and an unbreakable word like "Display" at display
+     scale don't both fit a 390px viewport side by side. */
+  .sg-type-row { flex-direction: column; align-items: flex-start; gap: 0.375rem; }
+  .sg-type-row__meta { text-align: left; white-space: normal; }
+}
+
+/* Spacing scale */
+.sg-space-row { display: flex; align-items: center; gap: var(--s-3); padding-block: 0.5rem; }
+.sg-space-row__bar { height: 10px; background: var(--omnic-cyan-deep); border-radius: 2px; }
+.sg-space-row__label { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--fg-ink-2); width: 9rem; flex: none; }
+
+/* Radius scale */
+.sg-radii { display: flex; flex-wrap: wrap; gap: var(--s-4); }
+.sg-radius {
+  width: 96px; height: 96px;
+  background: var(--surface-paper-2);
+  box-shadow: inset 0 0 0 1px var(--line-on-paper);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--fg-ink-2);
+}
+
+/* Component specimens */
+.sg-specimen {
+  padding: var(--s-5);
+  background: var(--surface-paper-2);
+  border-radius: var(--r-3);
+}
+.sg-specimen__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); }
+.sg-specimen + .sg-specimen { margin-top: var(--s-3); }
+.sg-specimen__caption {
+  margin-top: var(--s-3);
+  font-size: var(--fs-small);
+  color: var(--fg-ink-2);
+}
+
+.sg-nav-demo { display: flex; gap: var(--s-1); background: var(--omnic-abyss); padding: var(--s-2); border-radius: var(--r-2); }
+.sg-nav-demo a {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--r-1);
+  color: var(--fg-on-dark-2);
+  font-size: 0.875rem;
+}
+.sg-nav-demo a:hover { color: var(--fg-on-dark); }
+.sg-nav-demo a.is-active { color: var(--fg-on-dark); background: rgba(255, 255, 255, 0.08); }
+
+.sg-footnote {
+  padding-block: var(--s-6) var(--s-8);
+  color: var(--fg-ink-2);
+  font-size: var(--fs-small);
+  max-width: 62ch;
+}
+
+/* Dark specimen tile — overrides needed because these utility classes load
+   before this file, and a tied specificity means the later rule wins;
+   without this the dark tile would render on the paper background. */
+.sg-specimen.surface-abyss { background: var(--surface-abyss); }
+.sg-specimen.surface-abyss .sg-specimen__caption { color: var(--fg-on-dark-2); }

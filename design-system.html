@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f7f9">
+<title>Design System Starter | Omnic.AI Exploration</title>
+<meta name="description" content="A second, smaller exploration alongside the Omnic.AI homepage prototype: a documented token and component reference, built from evidence across omnic.ai and forge.omnic.ai.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="https://omnicweb.s3.amazonaws.com/assets/img/logos/logo.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<link rel="stylesheet" href="assets/css/styleguide.css">
+</head>
+<body class="surface-paper" style="background-color:var(--surface-paper)">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="sg-topbar">
+  <a href="index.html">&larr; Omnic.AI homepage exploration</a>
+  <span class="t-label sg-topbar__tag" style="color:var(--fg-ink-2)">02 &nbsp;/&nbsp; Design system starter</span>
+</div>
+
+<main id="main">
+
+  <!-- ====================================================================
+       Intro — the same four-part structure as the homepage case study,
+       compressed, because this is the secondary thread, not a second thesis.
+       ==================================================================== -->
+  <section class="sg-intro shell">
+    <p class="t-label t-eyebrow on-paper-2 mb-4">Second area — beside the homepage</p>
+    <h1 class="t-h1" style="max-width:16ch">A shared design system, documented once</h1>
+    <p class="t-lead sg-intro__lede mt-4">
+      The homepage exploration is one page. Omnic's public presence is more than
+      one page — and the moment a visitor clicks <em>Sign&nbsp;Up&nbsp;Now</em> or
+      <em>Pricing</em>, they leave omnic.ai entirely and land on
+      <code>forge.omnic.ai</code>. I looked at what happens across that whole
+      surface, not just the one page I rebuilt.
+    </p>
+
+    <div class="sg-frame">
+      <div class="sg-frame__item">
+        <span class="sg-frame__label">Observation</span>
+        <p class="t-body mb-0">Across omnic.ai's other pages and the entry
+          points into the Forge app, the same building blocks — a page header,
+          a primary button, a toggle — get re-implemented slightly differently
+          each time, rather than drawn from one shared spec.</p>
+      </div>
+      <div class="sg-frame__item">
+        <span class="sg-frame__label">Opportunity</span>
+        <p class="t-body mb-0">The brand's colour palette clearly does travel
+          between the marketing site and the product app. The components built
+          on top of that palette don't yet — which is the situation where
+          things drift a little further apart every time a page is added.</p>
+      </div>
+      <div class="sg-frame__item">
+        <span class="sg-frame__label">Hypothesis</span>
+        <p class="t-body mb-0">A small, documented set of tokens and the
+          handful of controls that actually repeat could let new pages and
+          screens draw from one source instead of each hand-tuning its own —
+          something I'd want to confirm by watching how a page actually gets
+          built today, not something I can claim from outside.</p>
+      </div>
+      <div class="sg-frame__item">
+        <span class="sg-frame__label">Artifact</span>
+        <p class="t-body mb-0">This page — the token system and components
+          from the homepage prototype, extracted into a standalone, labelled
+          reference. Not a rebuild of any additional page or of the Forge app.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       Evidence — the measurements the thesis above is built on.
+       ==================================================================== -->
+  <section class="sg-section shell">
+    <div class="sg-section__head">
+      <p class="t-label t-eyebrow on-paper-2 mb-3">What I found</p>
+      <h2 class="t-h3">The same job, several different implementations</h2>
+      <p class="t-body on-paper-2 mt-3">Measured directly from the live pages
+        — computed styles and DOM inspection, not a guess. Two things stood
+        out: the page-header band that opens About, Careers, Community and
+        Partnerships is hand-set per page rather than driven by one scale, and
+        the primary-action button renders four different ways across just two
+        screens of the sign-up flow on <code>forge.omnic.ai</code>.</p>
+    </div>
+
+    <div class="sg-table-wrap">
+      <table class="sg-table">
+        <thead>
+          <tr><th>Where</th><th>What repeats</th><th>What I measured</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>omnic.ai — home</td><td>Hero band</td><td>Bespoke 16:9 video treatment — doesn't use the shared <code>.page-header</code> class at all</td></tr>
+          <tr><td>omnic.ai — about.html</td><td><code>.page-header</code></td><td><code>min-vh-25</code></td></tr>
+          <tr><td>omnic.ai — community.html</td><td><code>.page-header</code></td><td><code>min-vh-35</code></td></tr>
+          <tr><td>omnic.ai — partnerships.html</td><td><code>.page-header</code></td><td><code>min-vh-70</code></td></tr>
+          <tr><td>omnic.ai — careers.html</td><td><code>.page-header</code></td><td><code>min-vh-75</code></td></tr>
+          <tr><td>forge.omnic.ai — cookie banner</td><td>Primary button ("Accept")</td><td>0px radius · 14px/400 · sentence case · fill <code>#3EB4E4</code></td></tr>
+          <tr><td>forge.omnic.ai — pricing</td><td>Monthly/Yearly toggle</td><td>9999px radius (pill) · <code>#E9ECEF</code> track</td></tr>
+          <tr><td>forge.omnic.ai — sign up</td><td>7 OAuth provider buttons</td><td>0px radius · bordered outline · icon + sentence case label</td></tr>
+          <tr><td>omnic.ai — home</td><td>Primary button ("Sign Up Now")</td><td>0px radius · 12px/700 · uppercase · fill <code>#3EB4E4</code></td></tr>
+          <tr><td><strong>Both properties</strong></td><td><strong>Navbar / accent colour</strong></td><td><strong><code>#000203</code> + <code>#3EB4E4</code> — consistent everywhere I checked</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="t-body on-paper-2 mt-4" style="max-width:62ch">
+      Four different shapes for one job — a primary action — inside a single
+      flow (accept cookies, then sign up). The colour underneath all four is
+      identical. That's the gap this page is scoped to close: not the palette,
+      the components.
+    </p>
+  </section>
+
+  <!-- ====================================================================
+       Foundations
+       ==================================================================== -->
+  <section class="sg-section shell">
+    <div class="sg-section__head">
+      <p class="t-label t-eyebrow on-paper-2 mb-3">Foundations</p>
+      <h2 class="t-h3">Tokens, not values</h2>
+      <p class="t-body on-paper-2 mt-3">Every value below already exists in
+        Omnic's live code somewhere. Naming it once means the next page
+        references <code>--omnic-cyan</code> instead of retyping
+        <code>#3EB4E4</code> — or, as happened on the pricing toggle, a
+        nearby-but-different grey.</p>
+    </div>
+
+    <h3 class="t-h4 mb-3">Colour</h3>
+    <div class="sg-swatches">
+      <div>
+        <div class="sg-swatch__chip" style="background:var(--omnic-cyan)"></div>
+        <div class="sg-swatch__meta">
+          <div class="sg-swatch__name">Cyan</div>
+          <div class="sg-swatch__hex">#3EB4E4</div>
+          <div class="sg-swatch__src">Logo mark + CTA fill — also the accent on forge.omnic.ai's navbar</div>
+        </div>
+      </div>
+      <div>
+        <div class="sg-swatch__chip" style="background:var(--omnic-cyan-deep)"></div>
+        <div class="sg-swatch__meta">
+          <div class="sg-swatch__name">Cyan deep</div>
+          <div class="sg-swatch__hex">#1D9ED2</div>
+          <div class="sg-swatch__src">CTA gradient end</div>
+        </div>
+      </div>
+      <div>
+        <div class="sg-swatch__chip" style="background:var(--omnic-abyss)"></div>
+        <div class="sg-swatch__meta">
+          <div class="sg-swatch__name">Abyss</div>
+          <div class="sg-swatch__hex">#000203</div>
+          <div class="sg-swatch__src">Hero background — also forge.omnic.ai's navbar</div>
+        </div>
+      </div>
+      <div>
+        <div class="sg-swatch__chip" style="background:var(--omnic-deep)"></div>
+        <div class="sg-swatch__meta">
+          <div class="sg-swatch__name">Deep</div>
+          <div class="sg-swatch__hex">#002436</div>
+          <div class="sg-swatch__src">Hero gradient origin</div>
+        </div>
+      </div>
+      <div>
+        <div class="sg-swatch__chip" style="background:var(--omnic-ink)"></div>
+        <div class="sg-swatch__meta">
+          <div class="sg-swatch__name">Ink</div>
+          <div class="sg-swatch__hex">#344767</div>
+          <div class="sg-swatch__src">Footer heading colour on the live site</div>
+        </div>
+      </div>
+      <div>
+        <div class="sg-swatch__chip" style="background:var(--fg-ink-2)"></div>
+        <div class="sg-swatch__meta">
+          <div class="sg-swatch__name">Ink, secondary</div>
+          <div class="sg-swatch__hex">#5A6A80</div>
+          <div class="sg-swatch__src">AA-passing secondary text — the live site's body grey measures ≈2.9:1</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="t-h4 mb-2 mt-7">Type</h3>
+    <div>
+      <div class="sg-type-row">
+        <span class="sg-type-row__sample" style="font-size:2.5rem;font-weight:800;letter-spacing:var(--tr-display);line-height:1">Display</span>
+        <span class="sg-type-row__meta">clamp(3.25–9rem) · 800 · 0.92 line-height</span>
+      </div>
+      <div class="sg-type-row">
+        <span class="sg-type-row__sample t-h1" style="font-size:2.25rem">Heading 1</span>
+        <span class="sg-type-row__meta">clamp(2.5–5.5rem) · 700</span>
+      </div>
+      <div class="sg-type-row">
+        <span class="sg-type-row__sample t-h2" style="font-size:1.75rem">Heading 2</span>
+        <span class="sg-type-row__meta">clamp(1.875–3.5rem) · 700</span>
+      </div>
+      <div class="sg-type-row">
+        <span class="sg-type-row__sample t-h3" style="font-size:1.375rem">Heading 3</span>
+        <span class="sg-type-row__meta">clamp(1.375–2.125rem) · 600</span>
+      </div>
+      <div class="sg-type-row">
+        <span class="sg-type-row__sample t-lead">Lead paragraph, for the sentence under a headline</span>
+        <span class="sg-type-row__meta">clamp(1.0625–1.375rem) · 400</span>
+      </div>
+      <div class="sg-type-row">
+        <span class="sg-type-row__sample t-body">Body copy — this is the weight and measure everything else reads against.</span>
+        <span class="sg-type-row__meta">clamp(0.9375–1.125rem) · 1.72 line-height</span>
+      </div>
+      <div class="sg-type-row">
+        <span class="sg-type-row__sample t-label" style="color:var(--fg-ink-2)">Eyebrow / Label</span>
+        <span class="sg-type-row__meta">11px · mono · 0.24em tracking</span>
+      </div>
+    </div>
+
+    <div class="row g-6 mt-7">
+      <div class="col-lg-6">
+        <h3 class="t-h4 mb-3">Spacing — 8px base grid</h3>
+        <div class="sg-space-row"><span class="sg-space-row__label">--s-1 · 8px</span><span class="sg-space-row__bar" style="width:8px"></span></div>
+        <div class="sg-space-row"><span class="sg-space-row__label">--s-2 · 16px</span><span class="sg-space-row__bar" style="width:16px"></span></div>
+        <div class="sg-space-row"><span class="sg-space-row__label">--s-3 · 24px</span><span class="sg-space-row__bar" style="width:24px"></span></div>
+        <div class="sg-space-row"><span class="sg-space-row__label">--s-4 · 32px</span><span class="sg-space-row__bar" style="width:32px"></span></div>
+        <div class="sg-space-row"><span class="sg-space-row__label">--s-5 · 48px</span><span class="sg-space-row__bar" style="width:48px"></span></div>
+        <div class="sg-space-row"><span class="sg-space-row__label">--s-6 · 64px</span><span class="sg-space-row__bar" style="width:64px"></span></div>
+        <div class="sg-space-row"><span class="sg-space-row__label">--s-7 · 96px</span><span class="sg-space-row__bar" style="width:96px"></span></div>
+      </div>
+      <div class="col-lg-6">
+        <h3 class="t-h4 mb-3">Radius — two steps, on purpose</h3>
+        <div class="sg-radii">
+          <div class="sg-radius" style="border-radius:var(--r-1)">2px<br>chips</div>
+          <div class="sg-radius" style="border-radius:var(--r-2)">8px<br>buttons</div>
+          <div class="sg-radius" style="border-radius:var(--r-3)">10px<br>media / panels</div>
+        </div>
+        <p class="t-small on-paper-2 mt-3" style="max-width:34ch">
+          What's actually live spans <code>0px</code> to <code>9999px</code>
+          depending which screen you're on. Two deliberate steps replace that
+          range without losing the pill-shaped toggle's legitimate use —
+          it just becomes a documented choice instead of a one-off.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       Components
+       ==================================================================== -->
+  <section class="sg-section shell">
+    <div class="sg-section__head">
+      <p class="t-label t-eyebrow on-paper-2 mb-3">Components</p>
+      <h2 class="t-h3">The controls that actually repeat</h2>
+      <p class="t-body on-paper-2 mt-3">Three button treatments, because three
+        is what the live surfaces actually use — a filled primary action, a
+        restrained secondary, and an outline variant modelled directly on the
+        real OAuth buttons at <code>forge.omnic.ai/users/sign_up</code>. Try
+        tabbing to any control below: every state here is real CSS, not a
+        screenshot.</p>
+    </div>
+
+    <h3 class="t-h4 mb-3">Buttons</h3>
+    <div class="sg-specimen surface-abyss">
+      <div class="sg-specimen__row">
+        <a class="btn-omnic" href="#components" onclick="return false">
+          Primary action
+          <svg class="btn-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn-omnic btn-ghost" href="#components" onclick="return false">Secondary</a>
+      </div>
+      <p class="sg-specimen__caption on-dark-2">On dark surfaces — the treatment already used for Sign&nbsp;Up&nbsp;Now / Pricing on the homepage.</p>
+    </div>
+    <div class="sg-specimen">
+      <div class="sg-specimen__row">
+        <a class="btn-omnic btn-outline" href="#components" onclick="return false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" opacity=".7"/></svg>
+          Continue with Provider
+        </a>
+      </div>
+      <p class="sg-specimen__caption">On paper surfaces — for the one pattern the marketing site's button system doesn't cover yet: a bordered action beside an icon and a sentence-case label, matching what the sign-up screen already does.</p>
+    </div>
+
+    <h3 class="t-h4 mb-3 mt-7">Eyebrow label</h3>
+    <div class="sg-specimen">
+      <p class="t-label t-eyebrow on-paper-2 mb-0">Section eyebrow</p>
+      <p class="sg-specimen__caption">The rule carries the accent colour so the label text itself can stay at an AA-passing contrast — cyan text at label size measures under 3:1 on paper.</p>
+    </div>
+
+    <h3 class="t-h4 mb-3 mt-7">Navigation states</h3>
+    <div class="sg-specimen">
+      <nav class="sg-nav-demo" aria-label="Navigation state demo">
+        <a href="#components" onclick="return false">Default</a>
+        <a href="#components" onclick="return false" class="is-active">Active</a>
+        <a href="#components" onclick="return false">Hover me</a>
+      </nav>
+      <p class="sg-specimen__caption">One navigation pattern, one set of states — currently the marketing nav and the Forge app's hamburger-only header don't share this.</p>
+    </div>
+
+    <h3 class="t-h4 mb-3 mt-7">Media frame</h3>
+    <div class="sg-specimen">
+      <div style="max-width:280px">
+        <figure class="frame frame--zoom m-0">
+          <img src="https://omnicweb.s3.amazonaws.com/assets/img/player_card1.webp" alt="Sample Player Card" width="768" height="768" loading="lazy">
+        </figure>
+      </div>
+      <p class="sg-specimen__caption">The same plate treatment used for all seven capability screenshots on the homepage — sized to the asset, not stretched to fill a shared card.</p>
+    </div>
+  </section>
+
+  <section class="shell">
+    <p class="sg-footnote">
+      This page documents a proposal, built from the same tokens and
+      components as the homepage exploration — it is not a rebuild.
+      About, Careers, Community, Partnerships, and the Forge product app
+      were not modified; I don't have access to the Forge codebase, and
+      rebuilding a live signed-in product was outside what this exploration
+      set out to do. What's here is scoped to be the reference those pages
+      could draw from, if that turned out to be useful.
+    </p>
+  </section>
+
+</main>
+</body>
+</html>

@@ -1,7 +1,14 @@
 # Audit — omnic.ai homepage
 
-Captured from the live site before any design work. Everything below is
-observation, not opinion about the business.
+Supporting detail for [`../README.md`](../README.md). Captured from the live
+site before any design work; everything below is observation about the
+public-facing experience, not a claim about Omnic's business.
+
+Findings 1–3 in section 3 are the basis for the project's single thesis: the
+seven capabilities are the strongest proof on the page and they render
+collapsed by default. Findings 4–15 are secondary — real, but supporting —
+and the changes made in response to them serve that same thesis rather than
+standing as independent fixes.
 
 ---
 

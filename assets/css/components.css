@@ -71,6 +71,24 @@
 }
 .btn-ghost:active { background: rgba(255, 255, 255, 0.04); }
 
+/* Outline / provider variant — modelled on the real OAuth buttons at
+   forge.omnic.ai/users/sign_up (Discord, Twitch, Google...): a bordered
+   button on a light surface, icon + label, no fill until interaction. Not
+   invented — this is the one button treatment on Omnic's own product surface
+   that the marketing site's button system doesn't yet account for. */
+.btn-outline {
+  background: transparent;
+  color: var(--fg-ink);
+  box-shadow: inset 0 0 0 1.5px var(--line-on-paper);
+}
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  background: rgba(29, 158, 210, 0.06);
+  box-shadow: inset 0 0 0 1.5px var(--omnic-cyan-deep);
+  transform: translateY(-1px);
+}
+.btn-outline:active { background: rgba(29, 158, 210, 0.1); }
+
 /* Compact variant — masthead only. */
 .btn-omnic--sm {
   min-height: 40px;

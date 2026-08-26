@@ -1,5 +1,11 @@
 # Competitive design intelligence
 
+Supporting research for [`../README.md`](../README.md) — informs the
+*Exploration* and *Design decisions* sections there. This is not a second
+thesis: it's the reference-checking that went into deciding how to execute
+the one opportunity described in the README, not a reason to redesign
+anything beyond it.
+
 Research pass across the esports-analytics space plus one agency reference,
 run to answer a single question: **what would make Omnic's page more modern,
 tidier, cleaner and more professional — without making it look like anyone
