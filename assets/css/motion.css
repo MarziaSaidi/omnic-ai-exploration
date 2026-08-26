@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Omnic.AI — Motion utilities
+   Five behaviours, one shared easing. Anything that moves is declared here so
+   the whole system can be audited — and disabled — in one place.
+
+   .reveal          → scroll-triggered entrance (opt in per element)
+   [data-reveal]    → variant: up | mask | scale | fade
+   [data-stagger]   → children enter in sequence
+   .hero-anim-*     → page-load choreography
+   .no-motion       → set by JS when prefers-reduced-motion is on
+   ========================================================================== */
+
+/* --- Scroll reveal -------------------------------------------------------- */
+
+/* Note: the "mask" variant deliberately avoids clip-path. A clip-path on an
+   observed element reports intersectionRatio 0 in Blink, so an IntersectionObserver
+   never fires and the element stays hidden forever. mask-position is ignored by
+   the observer's geometry, animates on the compositor, and gives the same wipe. */
+
+.reveal {
+  opacity: 0;
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out),
+    -webkit-mask-position var(--dur-reveal) var(--ease-out),
+    mask-position var(--dur-reveal) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal[data-reveal="up"]    { transform: translate3d(0, 32px, 0); }
+.reveal[data-reveal="fade"]  { transform: none; }
+.reveal[data-reveal="scale"] { transform: scale(0.965); }
+
+.reveal[data-reveal="mask"] {
+  opacity: 1;
+  transform: translate3d(0, 20px, 0);
+  -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 50%);
+          mask-image: linear-gradient(180deg, #000 50%, transparent 50%);
+  -webkit-mask-size: 100% 200%;
+          mask-size: 100% 200%;
+  -webkit-mask-position: 0 100%;
+          mask-position: 0 100%;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+}
+
+.reveal.is-in { opacity: 1; transform: none; }
+.reveal[data-reveal="mask"].is-in {
+  -webkit-mask-position: 0 0;
+          mask-position: 0 0;
+}
+
+/* Entrances play once; drop the compositor hint when they are done. */
+.reveal.is-in { will-change: auto; }
+
+/* Staggered children: the parent carries [data-stagger], JS sets the index. */
+[data-stagger] > * { --reveal-delay: calc(var(--i, 0) * 90ms); }
+
+/* --- Page-load choreography ---------------------------------------------- */
+
+/* Headline lines wipe up from a mask. Two lines, 120ms apart — that is the
+   whole entrance. Everything else simply fades. */
+.line-mask { display: block; overflow: hidden; padding-bottom: 0.06em; }
+.line-mask > span {
+  display: block;
+  transform: translate3d(0, 105%, 0);
+  transition: transform 1200ms var(--ease-out);
+  transition-delay: var(--line-delay, 0ms);
+}
+.is-loaded .line-mask > span { transform: translate3d(0, 0, 0); }
+
+.load-fade {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out);
+  transition-delay: var(--load-delay, 0ms);
+}
+.is-loaded .load-fade { opacity: 1; transform: none; }
+
+/* The hero video plate opens from a horizontal clip on arrival. */
+.hero__media {
+  clip-path: inset(0 0 0 0);
+  transform: scale(1.08);
+  transition: transform 1800ms var(--ease-out), opacity 1200ms var(--ease-out);
+  opacity: 0;
+}
+.is-loaded .hero__media { transform: scale(1); opacity: 1; }
+
+/* --- Parallax ------------------------------------------------------------- */
+/* JS writes --parallax (px); CSS decides how it is applied. */
+[data-parallax] { will-change: transform; }
+.forge__bg[data-parallax] { transform: translate3d(0, var(--parallax, 0px), 0); }
+
+/* --- Reduced motion ------------------------------------------------------- */
+
+.no-motion .reveal,
+.no-motion .load-fade {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.no-motion .reveal[data-reveal="mask"] {
+  -webkit-mask-image: none !important;
+          mask-image: none !important;
+}
+.no-motion .line-mask > span { transform: none !important; }
+.no-motion .hero__media { opacity: 1 !important; transform: none !important; }
+.no-motion [data-parallax] { transform: none !important; }
+.no-motion .scroll-cue__rail::after { animation: none; }

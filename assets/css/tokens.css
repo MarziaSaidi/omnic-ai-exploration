@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Omnic.AI — Design Tokens
+   Every value below is derived from the live Omnic.AI brand:
+   cyan #3EB4E4 → #1D9ED2, abyss #000203 → deep #002436, ink #344767,
+   typeface Montserrat. Nothing here invents a new brand.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand palette (sampled from omnic.ai) -------------------------- */
+  --omnic-cyan:        #3eb4e4;  /* primary — logo mark + CTA */
+  --omnic-cyan-deep:   #1d9ed2;  /* primary gradient end */
+  --omnic-cyan-lift:   #6fcbef;  /* hover / focus lift */
+  --omnic-abyss:       #000203;  /* hero background base */
+  --omnic-deep:        #002436;  /* hero gradient origin */
+  --omnic-ink:         #344767;  /* body + footer heading colour */
+
+  /* ---- Surfaces -------------------------------------------------------- */
+  --surface-abyss:     var(--omnic-abyss);
+  --surface-deep:      #001a29;
+  --surface-paper:     #f4f7f9;
+  --surface-paper-2:   #e9eef2;
+  --surface-white:     #ffffff;
+
+  /* ---- Foreground ------------------------------------------------------ */
+  --fg-on-dark:        #ffffff;
+  --fg-on-dark-2:      rgba(255, 255, 255, 0.68);   /* 7.2:1 on abyss */
+  --fg-on-dark-3:      rgba(255, 255, 255, 0.42);   /* decorative only  */
+  --fg-ink:            var(--omnic-ink);            /* 8.4:1 on paper   */
+  --fg-ink-2:          #5a6a80;                     /* 4.9:1 on paper   */
+
+  /* ---- Lines ----------------------------------------------------------- */
+  --line-on-dark:      rgba(255, 255, 255, 0.14);
+  --line-on-dark-soft: rgba(255, 255, 255, 0.07);
+  --line-on-paper:     rgba(52, 71, 103, 0.16);
+  --line-on-paper-soft:rgba(52, 71, 103, 0.08);
+
+  /* ---- Gradients (preserved from the current site) --------------------- */
+  --grad-primary: linear-gradient(195deg, #3eb4e4 0%, #1d9ed2 100%);
+  --grad-dark:    linear-gradient(195deg, #002436 0%, #000203 100%);
+
+  /* ---- Type ------------------------------------------------------------ */
+  --font-sans: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Fluid scale — 320px → 1600px viewport */
+  --fs-display: clamp(3.25rem, 10.5vw, 9rem);
+  --fs-h1:      clamp(2.5rem, 7.2vw, 5.5rem);
+  --fs-h2:      clamp(1.875rem, 4.4vw, 3.5rem);
+  --fs-h3:      clamp(1.375rem, 2.4vw, 2.125rem);
+  --fs-h4:      clamp(1.125rem, 1.5vw, 1.375rem);
+  --fs-lead:    clamp(1.0625rem, 1.35vw, 1.375rem);
+  --fs-body:    clamp(0.9375rem, 1.05vw, 1.125rem);
+  --fs-small:   0.875rem;
+  --fs-label:   0.6875rem;
+
+  --lh-display: 0.92;
+  --lh-tight:   1.05;
+  --lh-snug:    1.2;
+  --lh-body:    1.72;
+
+  --tr-display: -0.03em;
+  --tr-tight:   -0.02em;
+  --tr-label:   0.24em;
+
+  /* ---- Space — 8px base grid ------------------------------------------- */
+  --s-1: 0.5rem;   /*   8 */
+  --s-2: 1rem;     /*  16 */
+  --s-3: 1.5rem;   /*  24 */
+  --s-4: 2rem;     /*  32 */
+  --s-5: 3rem;     /*  48 */
+  --s-6: 4rem;     /*  64 */
+  --s-7: 6rem;     /*  96 */
+  --s-8: 8rem;     /* 128 */
+  --s-9: 10rem;    /* 160 */
+
+  /* Section rhythm — fluid but always a multiple-of-8 feel */
+  --section-y:      clamp(4.5rem, 11vw, 12.5rem);
+  --section-y-tight:clamp(3.5rem, 7vw, 7rem);
+
+  /* ---- Radii. The page's editorial character lives in its typography and
+         layout, not in hard corners — controls read as modern product UI.
+         Two steps only: interactive elements, and the surfaces they sit on. -- */
+  --r-0: 0;
+  --r-1: 2px;    /* hairline chips, focus artefacts */
+  --r-2: 8px;    /* buttons, inputs                 */
+  --r-3: 10px;   /* media plates, menu panels       */
+
+  /* ---- Elevation ------------------------------------------------------- */
+  --shadow-media: 0 32px 64px -34px rgba(0, 12, 20, 0.5);
+  --shadow-cta:   0 12px 28px -10px rgba(29, 158, 210, 0.65);
+
+  /* ---- Motion ---------------------------------------------------------- */
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast:   180ms;
+  --dur-base:   420ms;
+  --dur-slow:   900ms;
+  --dur-reveal: 1100ms;
+
+  /* ---- Layout ---------------------------------------------------------- */
+  --gutter:     clamp(1.25rem, 4vw, 4rem);
+  --max-w:      1560px;
+  --nav-h:      84px;
+  --nav-h-min:  68px;   /* condensed masthead — sticky elements park here */
+}
+
+@media (max-width: 991.98px) {
+  :root { --nav-h: 68px; }
+}

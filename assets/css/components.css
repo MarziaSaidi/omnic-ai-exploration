@@ -1,0 +1,519 @@
+/* ==========================================================================
+   Omnic.AI — Components
+   Reusable pieces. Each one is used in at least two places, or is a
+   deliberate single-purpose primitive (masthead, marquee).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Buttons
+   Bootstrap's .btn keeps its behaviour and a11y; the visual language is ours.
+   -------------------------------------------------------------------------- */
+
+.btn-omnic {
+  --btn-fg: #00131d;
+  --btn-bg: var(--omnic-cyan);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 1.375rem;
+  min-height: 48px;                 /* comfortably above the 44px touch target */
+  border: 0;
+  border-radius: var(--r-2);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out);
+}
+
+/* Hover is a colour step and a 1px lift, not a colour inversion — quick enough
+   to feel like a control responding rather than an animation playing. */
+.btn-omnic:hover,
+.btn-omnic:focus-visible {
+  background: var(--omnic-cyan-lift);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-cta);
+}
+.btn-omnic:active {
+  background: var(--omnic-cyan-deep);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-omnic .btn-arrow {
+  flex: none;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.btn-omnic:hover .btn-arrow,
+.btn-omnic:focus-visible .btn-arrow { transform: translateX(3px); }
+
+/* Ghost variant — the restrained secondary path in the closing CTA. */
+.btn-ghost {
+  background: transparent;
+  color: var(--fg-on-dark);
+  box-shadow: inset 0 0 0 1px var(--line-on-dark);
+}
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--fg-on-dark);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+}
+.btn-ghost:active { background: rgba(255, 255, 255, 0.04); }
+
+/* Compact variant — masthead only. */
+.btn-omnic--sm {
+  min-height: 40px;
+  padding: 0 1.125rem;
+  font-size: 0.875rem;
+}
+
+/* "It's Free" — Omnic's own badge copy, re-set as a typographic note
+   instead of a pink pill fighting the CTA for attention. */
+.cta-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--fg-on-dark-2);
+}
+.cta-note::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--omnic-cyan);
+  flex: none;
+}
+.surface-paper .cta-note { color: var(--fg-ink-2); }
+
+/* --------------------------------------------------------------------------
+   2. Text link with a wiping underline
+   -------------------------------------------------------------------------- */
+
+.link-wipe {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 2px;
+  font-weight: 600;
+}
+.link-wipe::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform-origin: right;
+  transform: scaleX(1);
+  transition: transform var(--dur-base) var(--ease-inout);
+}
+.link-wipe:hover::after,
+.link-wipe:focus-visible::after {
+  transform-origin: left;
+  animation: link-wipe-run var(--dur-base) var(--ease-inout);
+}
+@keyframes link-wipe-run {
+  0%   { transform: scaleX(1); transform-origin: right; }
+  49%  { transform: scaleX(0); transform-origin: right; }
+  50%  { transform: scaleX(0); transform-origin: left;  }
+  100% { transform: scaleX(1); transform-origin: left;  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Masthead
+   Transparent over the hero; on scroll it condenses onto a blurred plate.
+   -------------------------------------------------------------------------- */
+
+.masthead {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 1030;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: height var(--dur-base) var(--ease-out),
+              background-color var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out),
+              backdrop-filter var(--dur-base) var(--ease-out);
+}
+.masthead::after {              /* scrim so white nav text stays legible */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgba(0, 2, 3, 0.72), rgba(0, 2, 3, 0));
+  opacity: 1;
+  transition: opacity var(--dur-base) var(--ease-out);
+  pointer-events: none;
+}
+.masthead.is-condensed {
+  height: var(--nav-h-min);
+  background-color: rgba(0, 8, 13, 0.82);
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  border-bottom-color: var(--line-on-dark-soft);
+}
+.masthead.is-condensed::after { opacity: 0; }
+
+.masthead__inner {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--fg-on-dark);
+  flex: none;
+}
+.brand__mark { width: 32px; height: 33px; flex: none; color: currentColor; }
+.brand__word {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Desktop nav ------------------------------------------------------------- */
+.navset {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  margin: 0 var(--s-3) 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.navset__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.625rem 0.875rem;
+  color: var(--fg-on-dark-2);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  border-radius: var(--r-2);
+  transition: color var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
+}
+.navset__link:hover,
+.navset__link:focus-visible,
+.navset__item.is-open > .navset__link { color: var(--fg-on-dark); }
+
+.navset__link .caret {
+  width: 9px;
+  transition: transform var(--dur-base) var(--ease-out);
+  opacity: 0.65;
+}
+.navset__item.is-open > .navset__link .caret { transform: rotate(180deg); }
+
+/* Dropdown — a quiet panel, not a Bootstrap card. */
+.navset__item { position: relative; }
+.navset__panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  min-width: 232px;
+  padding: 0.5rem;
+  margin: 0;
+  list-style: none;
+  background: rgba(6, 18, 26, 0.94);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--line-on-dark);
+  border-radius: var(--r-3);
+  box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -6px);
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out),
+              visibility 0s linear var(--dur-base);
+}
+.navset__item.is-open > .navset__panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+}
+.navset__panel a {
+  display: block;
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--r-2);
+  color: var(--fg-on-dark-2);
+  font-size: 0.875rem;
+  transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+}
+.navset__panel a:hover,
+.navset__panel a:focus-visible { color: var(--fg-on-dark); background: rgba(62, 180, 228, 0.14); }
+
+.nav-ext { width: 10px; height: 10px; opacity: 0.6; margin-left: 2px; }
+
+/* Mobile trigger ---------------------------------------------------------- */
+.nav-toggle {
+  margin-left: auto;
+  width: 48px;
+  height: 48px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  border-radius: var(--r-2);
+  color: var(--fg-on-dark);
+  cursor: pointer;
+}
+.nav-toggle__bars { display: block; width: 22px; }
+.nav-toggle__bars span {
+  display: block;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+.nav-toggle__bars span + span { margin-top: 5px; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile drawer ----------------------------------------------------------- */
+.nav-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1029;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--nav-h) + var(--s-4)) var(--gutter) var(--s-5);
+  background: var(--grad-dark);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  transition: clip-path var(--dur-slow) var(--ease-out), visibility 0s linear var(--dur-slow);
+}
+.nav-drawer.is-open {
+  clip-path: inset(0 0 0 0);
+  visibility: visible;
+  transition-delay: 0s;
+}
+.nav-drawer__list { list-style: none; margin: 0; padding: 0; }
+.nav-drawer__list > li { border-bottom: 1px solid var(--line-on-dark-soft); }
+.nav-drawer__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  width: 100%;
+  padding: 1.125rem 0;
+  background: none;
+  border: 0;
+  color: var(--fg-on-dark);
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-align: left;
+  cursor: pointer;
+}
+.nav-drawer__link .caret { width: 12px; transition: transform var(--dur-base) var(--ease-out); }
+.nav-drawer__link[aria-expanded="true"] .caret { transform: rotate(180deg); }
+.nav-drawer__sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 var(--s-2);
+}
+.nav-drawer__sublist a {
+  display: block;
+  padding: 0.625rem 0 0.625rem var(--s-3);
+  color: var(--fg-on-dark-2);
+  font-size: 1rem;
+  min-height: 44px;
+}
+.nav-drawer__sublist a:hover,
+.nav-drawer__sublist a:focus-visible { color: var(--omnic-cyan); }
+.nav-drawer__foot { margin-top: auto; padding-top: var(--s-5); }
+
+body.nav-locked { overflow: hidden; }
+
+@media (max-width: 1119.98px) {
+  .navset { display: none; }
+  .nav-toggle { display: inline-flex; }
+  .masthead__inner { gap: 0.75rem; }
+  .masthead .btn-omnic--nav {
+    margin-left: auto;
+    min-height: 44px;               /* touch target once the drawer takes over */
+    padding: 0 0.9375rem;
+    font-size: 0.8125rem;
+  }
+  .nav-toggle { margin-left: 0; }
+}
+@media (max-width: 359.98px) {
+  .brand__word { display: none; }
+}
+@media (min-width: 1120px) {
+  .nav-drawer { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   4. Marquee — the five supported titles, given a continuous band
+   -------------------------------------------------------------------------- */
+
+.marquee {
+  --marquee-duration: 46s;
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: clamp(1.75rem, 4vw, 4rem);
+  animation: marquee-run var(--marquee-duration) linear infinite;
+}
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track { animation-play-state: paused; }
+@keyframes marquee-run {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.marquee__item {
+  /* A fixed optical box, not a fixed height: these five assets range from a
+     451x512 character stack to a 512x222 photo band, and matching heights
+     would let one title dominate the row. Equal area reads as equal weight. */
+  flex: none;
+  position: relative;
+  width: clamp(136px, 13vw, 190px);
+  height: clamp(96px, 9.5vw, 136px);
+}
+.marquee__item img {
+  /* Absolute against a definitely-sized box, so object-fit letterboxes
+     reliably: a percentage height on a centred grid child does not resolve. */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.82;
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+.marquee__item:hover img { opacity: 1; transform: scale(1.04); }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track { animation: none; }
+  .marquee { mask-image: none; -webkit-mask-image: none; overflow-x: auto; }
+  .marquee__item img { opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   5. Media frames
+   Omnic's assets are product screenshots. They get a frame that reads as a
+   screen, and a reveal that treats the image as a plate, not a thumbnail.
+   -------------------------------------------------------------------------- */
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-3);
+  background: linear-gradient(160deg, #041824, #000709);
+  box-shadow: var(--shadow-media);
+}
+.frame::after {                        /* 1px inner edge, both themes */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.09);
+  pointer-events: none;
+}
+.frame img {
+  width: 100%;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.frame--zoom:hover img { transform: scale(1.035); }
+.frame--plain { background: transparent; box-shadow: none; }
+.frame--plain::after { display: none; }
+
+/* Never enlarge Omnic's screenshots past their native pixel width — upscaling
+   a 553px capture to 890px is the fastest way to make a site look cheap. */
+.frame { max-width: min(100%, var(--native-w, 100%)); }
+
+/* Crop variant: some captures carry a lot of empty canvas below the content. */
+.frame--crop { aspect-ratio: var(--crop, 16 / 9); }
+.frame--crop img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
+
+/* A cropped capture should read as "this continues", not "this was cut off". */
+.frame--fade::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 22%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--surface-white));
+}
+.surface-abyss .frame--fade::before,
+.surface-deep .frame--fade::before {
+  background: linear-gradient(to bottom, rgba(0, 7, 9, 0), #000709);
+}
+
+.surface-paper .frame,
+.surface-paper-2 .frame {
+  background: var(--surface-white);
+  box-shadow: 0 24px 52px -34px rgba(12, 32, 58, 0.38);
+}
+.surface-paper .frame::after,
+.surface-paper-2 .frame::after { box-shadow: inset 0 0 0 1px rgba(52, 71, 103, 0.1); }
+.surface-paper .frame--plain,
+.surface-paper-2 .frame--plain { background: transparent; box-shadow: none; }
+
+/* --------------------------------------------------------------------------
+   6. Scroll cue
+   -------------------------------------------------------------------------- */
+
+.scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--fg-on-dark-2);
+}
+.scroll-cue__rail {
+  position: relative;
+  width: 1px;
+  height: 48px;
+  background: var(--line-on-dark);
+  overflow: hidden;
+}
+.scroll-cue__rail::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 40%;
+  background: var(--omnic-cyan);
+  animation: cue-run 2.4s var(--ease-inout) infinite;
+}
+@keyframes cue-run {
+  0%   { transform: translateY(-100%); }
+  60%  { transform: translateY(250%); }
+  100% { transform: translateY(250%); }
+}

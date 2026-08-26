@@ -1,0 +1,355 @@
+/* ==========================================================================
+   Omnic.AI — Section composition
+   The page reads: arrival → promise → understanding → proof → confidence →
+   action. Surfaces alternate dark / paper / dark so scrolling has rhythm.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Hero — "Story of the Forge"
+   The existing YouTube loop stays, but it becomes environment rather than
+   wallpaper: an angled scrim carries the type, the video breathes at right.
+   -------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--surface-abyss);
+  overflow: hidden;
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  filter: brightness(0.7) contrast(1.04) saturate(0.92);
+}
+/* cover-fit a 16:9 surface inside any viewport */
+.hero__media > * {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100vw, calc(var(--vh, 100svh) * 16 / 9));
+  height: max(var(--vh, 100svh), calc(100vw * 9 / 16));
+  /* Zoomed and biased right: the loop opens on a title card whose lettering
+     sits centre-left, exactly where the display type goes. This frames the
+     forge itself instead. */
+  transform: translate(-56%, -50%) scale(1.18);
+  border: 0;
+  pointer-events: none;
+}
+.hero__poster {
+  background: url("https://omnicweb.s3.amazonaws.com/assets/img/story_of_the_forge.webp") center / cover no-repeat;
+}
+.hero__frame { opacity: 0; transition: opacity 1200ms var(--ease-out); }
+.hero__frame.is-playing { opacity: 1; }
+
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 2, 3, 0.6) 0%, rgba(0, 2, 3, 0) 22%),
+    linear-gradient(97deg, #000203 0%, #000203 30%, rgba(0, 2, 3, 0.92) 46%, rgba(0, 2, 3, 0.6) 68%, rgba(0, 10, 16, 0.3) 100%),
+    linear-gradient(0deg, #000203 1%, rgba(0, 2, 3, 0.2) 30%, rgba(0, 2, 3, 0) 48%);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  min-height: 640px;
+  min-height: max(640px, var(--vh, 100svh));
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--s-4);
+  padding-top: calc(var(--nav-h) + var(--s-5));
+  padding-bottom: var(--s-5);
+}
+
+.hero__eyebrow { color: var(--fg-on-dark-2); }
+.hero__eyebrow::before { width: 40px; }
+
+/* Inline emphasis: the two technical phrases carry full contrast while the
+   connective words sit back, so "what does this do" resolves in one glance
+   without adding a single element. */
+.hero__sub .key { color: var(--fg-on-dark); font-weight: 500; }
+
+.hero__headline { align-self: end; }
+.hero__title { color: var(--fg-on-dark); }
+.hero__title em { font-style: normal; color: var(--omnic-cyan); }
+.hero__sub {
+  margin-top: var(--s-3);
+  color: var(--fg-on-dark-2);
+  max-width: 46ch;
+}
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-4);
+  margin-top: var(--s-5);
+}
+
+.hero__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+@media (max-width: 767.98px) {
+  .hero__media > * { transform: translate(-68%, -50%) scale(1.06); }
+  .hero__scrim {
+    background:
+      linear-gradient(180deg, rgba(0, 2, 3, 0.8) 0%, rgba(0, 2, 3, 0.55) 22%, rgba(0, 2, 3, 0.74) 42%, rgba(0, 2, 3, 0.94) 68%, #000203 88%);
+  }
+  .hero__inner { padding-bottom: var(--s-4); }
+  .hero__foot .scroll-cue { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Titles band — the five games Omnic analyses, plus the affiliation notice
+   that belongs beside them rather than buried above the footer.
+   -------------------------------------------------------------------------- */
+
+.titles-band {
+  position: relative;
+  z-index: 3;
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  border-top: 1px solid var(--line-on-dark-soft);
+}
+.titles-band__note { margin-top: var(--s-5); letter-spacing: 0.08em; line-height: 1.7; }
+
+/* --------------------------------------------------------------------------
+   Promise — Omnic's three headline claims, finally given the scale they were
+   written for. On the live site these are h2s inside a 54px icon list.
+   -------------------------------------------------------------------------- */
+
+.promise__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: clamp(1rem, 4vw, 3.5rem);
+  padding-block: clamp(1.75rem, 3.5vw, 3rem);
+  border-top: 1px solid var(--line-on-paper);
+}
+.promise__item:last-child { border-bottom: 1px solid var(--line-on-paper); }
+.promise__num { color: var(--omnic-cyan-deep); padding-top: 0.7em; }
+.promise__text {
+  font-size: clamp(1.75rem, 5.2vw, 4.25rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: var(--tr-display);
+  color: var(--fg-ink);
+  transition: color var(--dur-base) var(--ease-out);
+}
+.promise__item:hover .promise__text { color: var(--omnic-cyan-deep); }
+
+/* --------------------------------------------------------------------------
+   Forge — the "What is the Omnic Forge?" answer, moved out of a collapsed
+   accordion and onto a full-bleed dark plate. This is the moment the visitor
+   finally learns what the product is.
+   -------------------------------------------------------------------------- */
+
+.forge { position: relative; isolation: isolate; overflow: hidden; }
+.forge__bg {
+  position: absolute;
+  inset: -10% 0;
+  z-index: -2;
+  /* Omnic's own still, zoomed past its title lettering and onto the forge
+     itself, so it reads as texture rather than a second headline. */
+  background-image: url("https://omnicweb.s3.amazonaws.com/assets/img/story_of_the_forge.webp");
+  background-repeat: no-repeat;
+  background-size: 240% auto;
+  background-position: 70% 44%;
+  opacity: 0.3;
+  filter: saturate(0.5) contrast(0.88);
+  will-change: transform;
+}
+.forge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(110% 90% at 12% 40%, rgba(0, 36, 54, 0.55), transparent 68%),
+    linear-gradient(90deg, #000203 0%, rgba(0, 2, 3, 0.9) 34%, rgba(0, 2, 3, 0.72) 62%, rgba(0, 2, 3, 0.6) 100%),
+    linear-gradient(180deg, #000203 0%, rgba(0, 2, 3, 0.4) 26%, rgba(0, 2, 3, 0.5) 72%, #000203 100%);
+}
+.forge__q { color: var(--fg-on-dark); }
+.forge__a {
+  margin-top: clamp(1.75rem, 4vw, 3rem);
+  font-size: clamp(1.125rem, 2vw, 1.875rem);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  max-width: 30ch;
+}
+/* Each word lifts into full contrast as the paragraph passes the viewport. */
+.forge__a .w {
+  color: rgba(255, 255, 255, 0.2);
+  transition: color 500ms var(--ease-out);
+}
+.forge__a .w.is-lit { color: var(--fg-on-dark); }
+.no-motion .forge__a .w { color: var(--fg-on-dark); }
+
+/* --------------------------------------------------------------------------
+   Capabilities — the seven Forge features. On the live site all seven sit
+   behind a collapsed "Learn More" toggle; here they are the spine of the page
+   and each one is composed around its own asset's aspect ratio.
+   -------------------------------------------------------------------------- */
+
+.caps { position: relative; }
+
+.caps__index {
+  position: sticky;
+  top: var(--nav-h-min);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding-block: 0.875rem;
+  background: color-mix(in srgb, var(--surface-paper) 88%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--line-on-paper);
+  color: var(--fg-ink-2);
+}
+.caps__index-label { flex: none; }
+.caps__index-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg-ink);
+  font-weight: 600;
+  font-size: var(--fs-small);
+  letter-spacing: -0.01em;
+}
+.caps__index-count { flex: none; font-variant-numeric: tabular-nums; }
+.caps__index-bar {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(var(--caps-progress, 0));
+  transform-origin: left;
+  background: var(--omnic-cyan);
+  transition: transform 120ms linear;
+}
+
+.cap { padding-block: clamp(3.5rem, 7vw, 7rem); }
+.cap + .cap { border-top: 1px solid var(--line-on-paper-soft); }
+
+.cap__meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  margin-bottom: var(--s-2);
+  color: var(--omnic-cyan-deep);
+}
+.cap__meta::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--line-on-paper);
+}
+.cap__title { color: var(--fg-ink); }
+.cap__copy { margin-top: var(--s-2); color: var(--fg-ink-2); }
+.cap__text { align-self: center; }
+
+/* The "Plays Like" asset is 1488×256 — a band, so it gets treated as one. */
+.cap--band .frame { border-radius: var(--r-3); }
+
+/* --------------------------------------------------------------------------
+   Closing CTA
+   -------------------------------------------------------------------------- */
+
+.close-cta { position: relative; overflow: hidden; isolation: isolate; }
+.close-cta__glyph {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: min(42vw, 420px);
+  height: auto;
+  aspect-ratio: 154.7 / 159.05;
+  transform: translate(-50%, -50%);
+  color: var(--fg-on-dark);
+  opacity: 0.06;
+  pointer-events: none;
+}
+.close-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(90% 120% at 50% 118%, rgba(62, 180, 228, 0.16), transparent 66%);
+  pointer-events: none;
+}
+.close-cta__inner { position: relative; text-align: center; }
+.close-cta__title { color: var(--fg-on-dark); }
+.close-cta__title em { font-style: normal; color: var(--omnic-cyan); }
+.close-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+.site-footer__lockup { width: 104px; height: auto; color: var(--fg-on-dark); }
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.site-footer { padding-block: var(--s-7) var(--s-5); border-top: 1px solid var(--line-on-dark-soft); }
+.site-footer__title { color: var(--fg-on-dark-3); margin-bottom: var(--s-3); }
+.site-footer__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.625rem; }
+.site-footer__list a {
+  color: var(--fg-on-dark-2);
+  font-size: var(--fs-small);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.site-footer__list a:hover, .site-footer__list a:focus-visible { color: var(--omnic-cyan); }
+
+.social {
+  /* A fixed grid rather than wrapping flex: eight 44px targets do not fit one
+     row on a 390px screen, and 7 + 1 orphan looks like a mistake. 4 x 2 does not. */
+  display: grid;
+  grid-template-columns: repeat(4, 44px);
+  gap: 4px;
+  list-style: none;
+  margin: var(--s-3) 0 0;
+  padding: 0;
+}
+@media (min-width: 576px) {
+  .social { grid-template-columns: repeat(8, 44px); }
+}
+.social a {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-2);
+  color: var(--fg-on-dark-2);
+  transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+}
+.social a:hover, .social a:focus-visible { color: var(--omnic-cyan); background: rgba(62, 180, 228, 0.12); }
+.social svg { width: 18px; height: 18px; fill: currentColor; }
+
+.site-footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  margin-top: var(--s-6);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line-on-dark-soft);
+  color: var(--fg-on-dark-3);
+}
